@@ -87,6 +87,9 @@ class TheGame():
         text_rect.center = (x, y)
         self.display.blit(text_surface,text_rect)
 
+"""
+Attributing "TheGame" class to a variable (ob) and starting the main program loop        
+"""
 ob = TheGame()
 while ob.running:
     ob.current_menu.display()
