@@ -9,15 +9,14 @@ class MainMenu():
             game (file): Contains "TheGame" Class, inheriting the contents
         """
         self.game = game
-        self.mid_WIDTH, self.mid_HEIGHT = self.game.display_WIDTH/2, self.game.display_HEIGHT/2
 
         #initializing run_display flag, and initializing selection to "Start"
         self.run_display = True
         self.selection = "Start"
 
-        self.startx, self.starty = self.mid_WIDTH, self.mid_HEIGHT + 50
-        self.creditsx, self.creditsy = self.mid_WIDTH, self.mid_HEIGHT + 95
-        self.exitx, self.exity = self.mid_WIDTH, self.mid_HEIGHT + 135
+        self.startx, self.starty = self.game.mid_WIDTH, self.game.mid_HEIGHT + 50
+        self.creditsx, self.creditsy = self.game.mid_WIDTH, self.game.mid_HEIGHT + 95
+        self.exitx, self.exity = self.game.mid_WIDTH, self.game.mid_HEIGHT + 135
 
         #initializing container for cursor, with offset 150 points to the left 
         self.cursor_rect = pg.Rect(0,0,45,45)
@@ -38,7 +37,7 @@ class MainMenu():
             self.listen_input()
             self.game.display.fill(self.game.black)
 
-            self.game.render_text("Oblique", 200, self.game.menu_font, self.game.white, self.mid_WIDTH, self.mid_HEIGHT-100)
+            self.game.render_text("Oblique", 200, self.game.menu_font, self.game.white, self.game.mid_WIDTH, self.game.mid_HEIGHT-100)
             self.game.render_text("Start Game", 60, self.game.menu_font, self.game.white, self.startx, self.starty)
             self.game.render_text("Credits", 60, self.game.menu_font, self.game.white, self.creditsx, self.creditsy)
             self.game.render_text("Exit", 60, self.game.menu_font, self.game.white, self.exitx, self.exity)
@@ -82,11 +81,29 @@ class MainMenu():
                 print(self.game.start)
                 self.game.start = True
             elif self.selection == "Credits":
-                pass
+                self.game.current_menu = self.game.credits
             elif self.selection == "Exit":
                 self.game.running, self.game.start = False, False
-                self.run_display= False
             self.run_display= False
                 
+class Credits():
+    def __init__(self, game):
+        self.game = game
+        self.run_display = True
+        self.cursor_rect = pg.Rect(0, 0, 45, 45)
+        self.offset = - 150
 
+    def display(self):
+        self.run_display = True
+        while self.run_display:
+            self.game.listen_event()
+            if self.game.back_KEY or self.game.start_KEY:
+                self.game.current_menu = self.game.main_menu
+                self.run_display = False
+            self.game.display.fill(self.game.black)
+            self.game.render_text('Credits', 100, self.game.menu_font, self.game.white, self.game.mid_WIDTH, self.game.mid_HEIGHT - 20)
+            self.game.render_text('By Yousof Kayal', 50, self.game.menu_font, self.game.magenta, self.game.mid_WIDTH, self.game.mid_HEIGHT +40)
+            self.game.window.blit(self.game.display,(0,0))
+            pg.display.update()
+            self.game.reset_key()
 

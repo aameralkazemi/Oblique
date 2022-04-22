@@ -1,5 +1,5 @@
 import pygame as pg
-from mainmenu import MainMenu
+from mainmenu import MainMenu, Credits
 
 class TheGame():
     def __init__(self):
@@ -14,6 +14,7 @@ class TheGame():
         self.up_KEY, self.down_KEY, self.start_KEY, self.back_KEY = False, False, False, False
 
         self.display_WIDTH, self.display_HEIGHT = 1000, 800
+        self.mid_WIDTH, self.mid_HEIGHT = self.display_WIDTH/2, self.display_HEIGHT/2
         self.display = pg.Surface((self.display_WIDTH,self.display_HEIGHT))
         self.window = pg.display.set_mode(((self.display_WIDTH,self.display_HEIGHT)))
         self.black, self.white, self.magenta = (0,0,0), (255,255,255), (90,35,175)
@@ -21,6 +22,8 @@ class TheGame():
         self.menu_font = 'assets/PoppkornRegular-MzKY.ttf'
         self.game_font = 'assets/PressStart2P-vaV7.ttf'
         
+        self.main_menu = MainMenu(self)
+        self.credits = Credits(self)
         self.current_menu = MainMenu(self)
 
     def loop(self):
@@ -29,7 +32,7 @@ class TheGame():
         """        
         while self.start:
             self.listen_event()
-            if self.start_KEY:
+            if self.back_KEY:
                 self.start = False
 
             self.display.fill(self.black)
