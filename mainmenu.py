@@ -32,8 +32,8 @@ class MainMenu():
         self.game.reset_key()
 
     def display(self):
-        self.rundisplay = True
-        while self.display:
+        self.run_display = True
+        while self.run_display:
             self.game.listen_event()
             self.listen_input()
             self.game.display.fill(self.game.black)
@@ -55,15 +55,12 @@ class MainMenu():
             if self.selection == "Start":
                 self.cursor_rect.midtop = (self.creditsx + self.offset+50, self.creditsy)
                 self.selection = "Credits"
-                print(self.selection)
             elif self.selection == "Credits":
                 self.cursor_rect.midtop = (self.exitx + self.offset+90, self.exity)
                 self.selection = "Exit"
-                print(self.selection)
             elif self.selection == "Exit":
                 self.cursor_rect.midtop = (self.startx + self.offset, self.starty)
                 self.selection = "Start"
-                print(self.selection)
 
         if self.game.up_KEY:
             if self.selection == "Start":
@@ -82,11 +79,14 @@ class MainMenu():
         self.move_cursor()
         if self.game.start_KEY:
             if self.selection == "Start":
+                print(self.game.start)
                 self.game.start = True
             elif self.selection == "Credits":
                 pass
             elif self.selection == "Exit":
-                pg.quit()
+                self.game.running, self.game.start = False, False
+                self.run_display= False
+            self.run_display= False
                 
 
 

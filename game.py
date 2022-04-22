@@ -30,10 +30,10 @@ class TheGame():
         while self.start:
             self.listen_event()
             if self.start_KEY:
-                self.running = False
-                
+                self.start = False
+
             self.display.fill(self.black)
-            self.render_text("Hello world HAHAHAHAAHAHAHA", 20 , self.display_WIDTH/2, self.display_HEIGHT/2)
+            self.render_text("Hello world HAHAHAHAAHAHAHA", 20 ,self.game_font, self.white, self.display_WIDTH/2, self.display_HEIGHT/2)
 
             self.window.blit(self.display,(0,0))
             pg.display.update()
@@ -47,9 +47,9 @@ class TheGame():
         for event in pg.event.get():
             #exit game through "x" button
             if event.type == pg.QUIT: 
-                pg.quit()
+                self.running, self.start = False, False
+                self.current_menu.run_display= False
                 
-
             #tracking user input 
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_RETURN:

@@ -1,6 +1,5 @@
 from game import TheGame
 ob = TheGame()
-
 while ob.running:
     ob.current_menu.display()
-    ob.game.loop()
+    ob.loop()
