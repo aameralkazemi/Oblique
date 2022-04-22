@@ -1,22 +1,22 @@
 import pygame as pg
 
 class MainMenu():
-    def __init__(self,game):
+    def __init__(self,oblique):
         """
         Initializing Main Menu Class
 
         Args:
-            game (file): Contains "TheGame" Class, inheriting the contents
+            oblique (file): Contains "TheGame" Class, inheriting the contents
         """
-        self.game = game
+        self.oblique = oblique
 
         #initializing run_display flag, and initializing selection to "Start"
         self.run_display = True
         self.selection = "Start"
 
-        self.startx, self.starty = self.game.mid_WIDTH, self.game.mid_HEIGHT + 50
-        self.creditsx, self.creditsy = self.game.mid_WIDTH, self.game.mid_HEIGHT + 95
-        self.exitx, self.exity = self.game.mid_WIDTH, self.game.mid_HEIGHT + 135
+        self.startx, self.starty = self.oblique.mid_WIDTH, self.oblique.mid_HEIGHT + 50
+        self.creditsx, self.creditsy = self.oblique.mid_WIDTH, self.oblique.mid_HEIGHT + 95
+        self.exitx, self.exity = self.oblique.mid_WIDTH, self.oblique.mid_HEIGHT + 135
 
         #initializing container for cursor, with offset 150 points to the left 
         self.cursor_rect = pg.Rect(0,0,45,45)
@@ -26,31 +26,31 @@ class MainMenu():
         
     
     def blit_screen(self):
-        self.game.window.blit(self.game.display,(0,0))
+        self.oblique.window.blit(self.oblique.display,(0,0))
         pg.display.update()
-        self.game.reset_key()
+        self.oblique.reset_key()
 
     def display(self):
         self.run_display = True
         while self.run_display:
-            self.game.listen_event()
+            self.oblique.listen_event()
             self.listen_input()
-            self.game.display.fill(self.game.black)
+            self.oblique.display.fill(self.oblique.black)
 
-            self.game.render_text("Oblique", 200, self.game.menu_font, self.game.white, self.game.mid_WIDTH, self.game.mid_HEIGHT-100)
-            self.game.render_text("Start Game", 60, self.game.menu_font, self.game.white, self.startx, self.starty)
-            self.game.render_text("Credits", 60, self.game.menu_font, self.game.white, self.creditsx, self.creditsy)
-            self.game.render_text("Exit", 60, self.game.menu_font, self.game.white, self.exitx, self.exity)
+            self.oblique.render_text("Oblique", 200, self.oblique.menu_font, self.oblique.white, self.oblique.mid_WIDTH, self.oblique.mid_HEIGHT-100)
+            self.oblique.render_text("Start oblique", 60, self.oblique.menu_font, self.oblique.white, self.startx, self.starty)
+            self.oblique.render_text("Credits", 60, self.oblique.menu_font, self.oblique.white, self.creditsx, self.creditsy)
+            self.oblique.render_text("Exit", 60, self.oblique.menu_font, self.oblique.white, self.exitx, self.exity)
 
             #cursor creation using the create text method
-            self.game.render_text('O', 40, self.game.menu_font, self.game.magenta, self.cursor_rect.x, self.cursor_rect.y)
+            self.oblique.render_text('O', 40, self.oblique.menu_font, self.oblique.magenta, self.cursor_rect.x, self.cursor_rect.y)
             self.blit_screen()
     
     def move_cursor(self):
         """
         Funtion that moves cursor in accordance to 'up' and 'down' inputs
         """
-        if self.game.down_KEY:
+        if self.oblique.down_KEY:
             if self.selection == "Start":
                 self.cursor_rect.midtop = (self.creditsx + self.offset+50, self.creditsy)
                 self.selection = "Credits"
@@ -61,7 +61,7 @@ class MainMenu():
                 self.cursor_rect.midtop = (self.startx + self.offset, self.starty)
                 self.selection = "Start"
 
-        if self.game.up_KEY:
+        if self.oblique.up_KEY:
             if self.selection == "Start":
                 self.cursor_rect.midtop = (self.exitx + self.offset+90, self.exity)
                 self.selection = "Exit"
@@ -73,37 +73,36 @@ class MainMenu():
                 self.selection = "Credits"
         
     
-    def listen_input(self):
+    def listen_start(self):
         """
         Listens for user input of "start" button. Depending on self.selection value, opens corresponding menu.
         """
         self.move_cursor()
-        if self.game.start_KEY:
+        if self.oblique.start_KEY:
             if self.selection == "Start":
-                print(self.game.start)
-                self.game.start = True
+                self.oblique.start = True
             elif self.selection == "Credits":
-                self.game.current_menu = self.game.credits
+                self.oblique.current_menu = self.oblique.credits
             elif self.selection == "Exit":
-                self.game.running, self.game.start = False, False
+                self.oblique.running, self.oblique.start = False, False
             self.run_display= False
                 
 class Credits():
-    def __init__(self, game):
-        self.game = game
+    def __init__(self, oblique):
+        self.oblique = oblique
         self.run_display = True
 
     def display(self):
         self.run_display = True
         while self.run_display:
-            self.game.listen_event()
-            if self.game.back_KEY or self.game.start_KEY:
-                self.game.current_menu = self.game.main_menu
+            self.oblique.listen_event()
+            if self.oblique.back_KEY or self.oblique.start_KEY:
+                self.oblique.current_menu = self.oblique.main_menu
                 self.run_display = False
-            self.game.display.fill(self.game.black)
-            self.game.render_text('Credits', 100, self.game.menu_font, self.game.white, self.game.mid_WIDTH, self.game.mid_HEIGHT - 20)
-            self.game.render_text('By Yousof Kayal', 50, self.game.menu_font, self.game.magenta, self.game.mid_WIDTH, self.game.mid_HEIGHT +40)
-            self.game.window.blit(self.game.display,(0,0))
+            self.oblique.display.fill(self.oblique.black)
+            self.oblique.render_text('Credits', 100, self.oblique.menu_font, self.oblique.white, self.oblique.mid_WIDTH, self.oblique.mid_HEIGHT - 20)
+            self.oblique.render_text('By Yousof Kayal', 50, self.oblique.menu_font, self.oblique.magenta, self.oblique.mid_WIDTH, self.oblique.mid_HEIGHT +40)
+            self.oblique.window.blit(self.oblique.display,(0,0))
             pg.display.update()
-            self.game.reset_key()
+            self.oblique.reset_key()
 
