@@ -74,7 +74,9 @@ class MainMenu():
         
     
     def listen_input(self):
-        
+        """
+        Listens for user input of "start" button. Depending on self.selection value, opens corresponding menu.
+        """
         self.move_cursor()
         if self.game.start_KEY:
             if self.selection == "Start":
@@ -90,8 +92,6 @@ class Credits():
     def __init__(self, game):
         self.game = game
         self.run_display = True
-        self.cursor_rect = pg.Rect(0, 0, 45, 45)
-        self.offset = - 150
 
     def display(self):
         self.run_display = True
