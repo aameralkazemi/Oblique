@@ -1,2 +1,2 @@
 # Oblique
-Text based RPG
+A text based RPG
