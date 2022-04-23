@@ -1,2 +1,3 @@
 # Oblique
-A text based RPG
+Text based RPG
+WIP
