@@ -1,23 +1,30 @@
 import pygame as pg
+import sys
+import time
 from mainmenu import MainMenu, Credits
 
-class TheGame():
+
+class Game_window():
     def __init__(self):
         """
         Initializing the window, flags, and keystrokes for The Game Class
         """
         pg.init()
+        clock = pg.time.Clock()
         pg.display.set_caption('OBLIQUE by YOUSOF KAYAL')
-        icon = pg.image.load("assets/icon.png")
-        pg.display.set_icon(icon)
+        # icon = pg.image.load("assets/icon.png")
+        # pg.display.set_icon(icon)
         self.running, self.start = True, False
         self.up_KEY, self.down_KEY, self.start_KEY, self.back_KEY = False, False, False, False
 
-        self.display_WIDTH, self.display_HEIGHT = 1000, 800
+        self.display_WIDTH, self.display_HEIGHT = 1280, 720
         self.mid_WIDTH, self.mid_HEIGHT = self.display_WIDTH/2, self.display_HEIGHT/2
+
         self.display = pg.Surface((self.display_WIDTH,self.display_HEIGHT))
         self.window = pg.display.set_mode(((self.display_WIDTH,self.display_HEIGHT)))
         self.black, self.white, self.magenta = (0,0,0), (255,255,255), (90,35,175)
+        self.user_text = ''
+        self.dialogue = ''
 
         self.menu_font = 'assets/PoppkornRegular-MzKY.ttf'
         self.game_font = 'assets/PressStart2P-vaV7.ttf'
@@ -26,7 +33,7 @@ class TheGame():
         self.credits = Credits(self)
         self.current_menu = MainMenu(self)
 
-    def loop(self):
+    def main_loop(self):
         """
         The game loop, this is where the actual game lives.
         """
@@ -34,9 +41,13 @@ class TheGame():
             self.listen_event()
             if self.back_KEY:
                 self.start = False
+                self.user_text = ''
 
             self.display.fill(self.black)
-            self.render_text("Hello world HAHAHAHAAHAHAHA", 20 ,self.game_font, self.white, self.display_WIDTH/2, self.display_HEIGHT/2)
+            for character in self.dialogue:
+                self.render_text("hello !", 20 ,self.game_font, self.white, self.mid_WIDTH, self.mid_HEIGHT- 50)
+                time.sleep(0.2)
+            self.render_text(self.user_text, 20 ,self.game_font, self.white, self.mid_WIDTH, self.mid_HEIGHT)
 
             self.window.blit(self.display,(0,0))
             pg.display.update()
@@ -53,16 +64,21 @@ class TheGame():
                 self.running, self.start = False, False
                 self.current_menu.run_display= False
                 
-            #tracking user input 
+            #tracking user input for menu traversal 
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_RETURN:
                     self.start_KEY = True
-                if event.key == pg.K_ESCAPE:
+                elif event.key == pg.K_ESCAPE:
                     self.back_KEY = True  
-                if event.key == pg.K_DOWN:
+                elif event.key == pg.K_DOWN:
                     self.down_KEY = True  
-                if event.key == pg.K_UP:
+                elif event.key == pg.K_UP:
                     self.up_KEY = True
+                elif event.key == pg.K_BACKSPACE:
+                    self.user_text = self.user_text[:-1]
+                else:
+                    self.user_text += event.unicode
+                    
                     
     def reset_key(self):
         """
@@ -83,14 +99,17 @@ class TheGame():
         """
         chosenfont = pg.font.Font(font,size)
         text_surface = chosenfont.render(text, True, color)
-        text_rect = text_surface.get_rect()
-        text_rect.center = (x, y)
-        self.display.blit(text_surface,text_rect)
+        render_rect = text_surface.get_rect()
+        render_rect.center = (x, y)
+        self.display.blit(text_surface,render_rect)
+    def typewriter(self):
+        pass
+    
 
 """
-Attributing "TheGame" class to a variable (ob) and starting the main program loop        
+Attributing "Game_window" class to a variable (ob) and starting the main loop        
 """
-ob = TheGame()
+ob = Game_window()
 while ob.running:
     ob.current_menu.display()
-    ob.loop()
+    ob.main_loop()

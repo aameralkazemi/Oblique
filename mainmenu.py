@@ -34,11 +34,11 @@ class MainMenu():
         self.run_display = True
         while self.run_display:
             self.oblique.listen_event()
-            self.listen_input()
+            self.listen_start()
             self.oblique.display.fill(self.oblique.black)
 
             self.oblique.render_text("Oblique", 200, self.oblique.menu_font, self.oblique.white, self.oblique.mid_WIDTH, self.oblique.mid_HEIGHT-100)
-            self.oblique.render_text("Start oblique", 60, self.oblique.menu_font, self.oblique.white, self.startx, self.starty)
+            self.oblique.render_text("Start Game", 60, self.oblique.menu_font, self.oblique.white, self.startx, self.starty)
             self.oblique.render_text("Credits", 60, self.oblique.menu_font, self.oblique.white, self.creditsx, self.creditsy)
             self.oblique.render_text("Exit", 60, self.oblique.menu_font, self.oblique.white, self.exitx, self.exity)
 
