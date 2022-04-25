@@ -1,6 +1,6 @@
 import pygame as pg
 from mainmenu import MainMenu, Credits
-
+import time
 
 class TheGame():
     def __init__(self):
@@ -22,10 +22,10 @@ class TheGame():
         self.black, self.white, self.magenta = (0,0,0), (255,255,255), (90,35,175)
 
         self.user_text = ''
-        self.dialogue_speed = 100
-        self.dg_cursor = 0
-        self.next_update = 0
-
+        self.cursor = 0
+        self.next_update= 0
+        
+        
         self.menu_font = 'assets/PoppkornRegular-MzKY.ttf'
         self.game_font = 'assets/PressStart2P-vaV7.ttf'
         self.dg_font = pg.font.Font(self.game_font, 20)
@@ -43,22 +43,45 @@ class TheGame():
         """
         while self.start:
             clock = pg.time.get_ticks()
+
+            def type_writer(dialogue, speed, x, y):
+                """_summary_
+
+                Args:
+                    dialogue (string): The dialogue
+                    speed (int): Typing speed
+                    x, y (int): Coordinates of rendered text
+                """                
+                self.display.blit(self.dg_image, (x,y))
+                if ( clock > self.next_update ):
+                    self.next_update = clock + speed  
+                    if (self.cursor < len(dialogue)):
+                        self.cursor += 1
+                        print(self.cursor)
+                self.dg_image = self.dg_font.render(dialogue[0:self.cursor], True, self.magenta)
+
             self.listen_event()
+
             if self.back_KEY:
                 self.start = False
                 self.user_text = ''
+                self.dg_image.fill(self.black)
+                
             
             self.display.fill(self.black)
-            self.display.blit( self.dg_image, (0,100))
             
-            dialogue1 = "hello world!, I have come to see the light"
-            if ( clock > self.next_update ):
-                self.next_update = clock + self.dialogue_speed  
-                if ( self.dg_cursor < len( dialogue1 ) ):
+            type_writer("Hello aamer, I think it works like this...", 50, 0, 100)
+
+            # self.display.blit( self.dg_image, (0,150))
+            
+            # dialogue2 = "yooooooo this is sick!"
+            # if ( clock > self.next_update ):
+            #     self.next_update = clock + self.dialogue_speed  
+            #     if (self.dg_cursor < len(dialogue1)):
         
-                    self.dg_cursor += 1
+            #         self.dg_cursor += 1
         
-            self.dg_image = self.dg_font.render( dialogue1[0:self.dg_cursor], True, self.magenta )
+            # self.dg_image = self.dg_font.render(dialogue2[0:self.dg_cursor], True, self.magenta)
 
             self.render_text(self.user_text, 15 ,self.game_font, self.white, self.mid_WIDTH-200, self.mid_HEIGHT+200)
 
@@ -98,6 +121,7 @@ class TheGame():
         Reset user key presses
         """        
         self.start_KEY, self.back_KEY, self.down_KEY, self.up_KEY = False, False, False, False
+        self.cursor, self.next_update = 0, 0
 
 
     def render_text(self, text, size, font, color, x, y):
