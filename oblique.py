@@ -20,28 +20,47 @@ class TheGame():
         self.display = pg.Surface((self.display_WIDTH,self.display_HEIGHT))
         self.window = pg.display.set_mode(((self.display_WIDTH,self.display_HEIGHT)))
         self.black, self.white, self.magenta = (0,0,0), (255,255,255), (90,35,175)
+
         self.user_text = ''
-        self.dialogue = 'ayoooooooo...'
+        self.dialogue_speed = 100
+        self.dg_cursor = 0
+        self.next_update = 0
 
         self.menu_font = 'assets/PoppkornRegular-MzKY.ttf'
         self.game_font = 'assets/PressStart2P-vaV7.ttf'
+        self.dg_font = pg.font.Font(self.game_font, 20)
+        self.dg_image   = self.dg_font.render( '*', True, self.black)
+        
         
         self.main_menu = MainMenu(self)
         self.credits = Credits(self)
         self.current_menu = MainMenu(self)
+
 
     def main_loop(self):
         """
         The game loop, this is where the actual game lives.
         """
         while self.start:
+            clock = pg.time.get_ticks()
             self.listen_event()
             if self.back_KEY:
                 self.start = False
                 self.user_text = ''
-
+            
             self.display.fill(self.black)
-            self.render_text(self.user_text, 20 ,self.game_font, self.white, self.mid_WIDTH, self.mid_HEIGHT)
+            self.display.blit( self.dg_image, (0,100))
+            
+            dialogue1 = "hello world!, I have come to see the light"
+            if ( clock > self.next_update ):
+                self.next_update = clock + self.dialogue_speed  
+                if ( self.dg_cursor < len( dialogue1 ) ):
+        
+                    self.dg_cursor += 1
+        
+            self.dg_image = self.dg_font.render( dialogue1[0:self.dg_cursor], True, self.magenta )
+
+            self.render_text(self.user_text, 15 ,self.game_font, self.white, self.mid_WIDTH-200, self.mid_HEIGHT+200)
 
             self.window.blit(self.display,(0,0))
             pg.display.update()
@@ -54,7 +73,7 @@ class TheGame():
         """
         for event in pg.event.get():
             #exit game through "x" button
-            if event.type == pg.QUIT: 
+            if event.type == pg.QUIT:
                 self.running, self.start = False, False
                 self.current_menu.run_display= False
                 
@@ -63,9 +82,9 @@ class TheGame():
                 if event.key == pg.K_RETURN:
                     self.start_KEY = True
                 elif event.key == pg.K_ESCAPE:
-                    self.back_KEY = True  
+                    self.back_KEY = True
                 elif event.key == pg.K_DOWN:
-                    self.down_KEY = True  
+                    self.down_KEY = True
                 elif event.key == pg.K_UP:
                     self.up_KEY = True
                 elif event.key == pg.K_BACKSPACE:
@@ -79,6 +98,7 @@ class TheGame():
         Reset user key presses
         """        
         self.start_KEY, self.back_KEY, self.down_KEY, self.up_KEY = False, False, False, False
+
 
     def render_text(self, text, size, font, color, x, y):
         """
@@ -96,13 +116,13 @@ class TheGame():
         render_rect = text_surface.get_rect()
         render_rect.center = (x, y)
         self.display.blit(text_surface,render_rect)
-    def typewriter(self):
-        pass
+
 
 """
-Attributing "TheGame" class to a variable (ob) and starting the main loop        
+Attributing "TheGame" class to a variable (ob) and the program loop
 """
 ob = TheGame() 
 while ob.running:
     ob.current_menu.display()
     ob.main_loop()
+    
