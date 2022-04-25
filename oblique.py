@@ -1,6 +1,5 @@
 import pygame as pg
 from mainmenu import MainMenu, Credits
-import time
 
 class TheGame():
     def __init__(self):
