@@ -1,19 +1,16 @@
 import pygame as pg
-import sys
-import time
 from mainmenu import MainMenu, Credits
 
 
-class Game_window():
+class TheGame():
     def __init__(self):
         """
-        Initializing the window, flags, and keystrokes for The Game Class
+        Initializing the window, flags, the clock, and keystrokes for The Game Class
         """
         pg.init()
-        clock = pg.time.Clock()
         pg.display.set_caption('OBLIQUE by YOUSOF KAYAL')
-        # icon = pg.image.load("assets/icon.png")
-        # pg.display.set_icon(icon)
+        icon = pg.image.load("assets/icon.png")
+        pg.display.set_icon(icon)
         self.running, self.start = True, False
         self.up_KEY, self.down_KEY, self.start_KEY, self.back_KEY = False, False, False, False
 
@@ -24,7 +21,7 @@ class Game_window():
         self.window = pg.display.set_mode(((self.display_WIDTH,self.display_HEIGHT)))
         self.black, self.white, self.magenta = (0,0,0), (255,255,255), (90,35,175)
         self.user_text = ''
-        self.dialogue = ''
+        self.dialogue = 'ayoooooooo...'
 
         self.menu_font = 'assets/PoppkornRegular-MzKY.ttf'
         self.game_font = 'assets/PressStart2P-vaV7.ttf'
@@ -44,9 +41,6 @@ class Game_window():
                 self.user_text = ''
 
             self.display.fill(self.black)
-            for character in self.dialogue:
-                self.render_text("hello !", 20 ,self.game_font, self.white, self.mid_WIDTH, self.mid_HEIGHT- 50)
-                time.sleep(0.2)
             self.render_text(self.user_text, 20 ,self.game_font, self.white, self.mid_WIDTH, self.mid_HEIGHT)
 
             self.window.blit(self.display,(0,0))
@@ -104,12 +98,11 @@ class Game_window():
         self.display.blit(text_surface,render_rect)
     def typewriter(self):
         pass
-    
 
 """
-Attributing "Game_window" class to a variable (ob) and starting the main loop        
+Attributing "TheGame" class to a variable (ob) and starting the main loop        
 """
-ob = Game_window()
+ob = TheGame() 
 while ob.running:
     ob.current_menu.display()
     ob.main_loop()
