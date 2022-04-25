@@ -43,9 +43,8 @@ class TheGame():
         while self.start:
             clock = pg.time.get_ticks()
 
-            def type_writer(dialogue, speed, x, y):
-                """_summary_
-
+            def type_writer(dialogue, speed, x, y, next_update = 0):
+                """
                 Args:
                     dialogue (string): The dialogue
                     speed (int): Typing speed
@@ -53,7 +52,7 @@ class TheGame():
                 """                
                 self.display.blit(self.dg_image, (x,y))
                 if ( clock > self.next_update ):
-                    self.next_update = clock + speed  
+                    self.next_update = clock + speed
                     if (self.cursor < len(dialogue)):
                         self.cursor += 1
                         print(self.cursor)
@@ -74,8 +73,8 @@ class TheGame():
             # self.display.blit( self.dg_image, (0,150))
             
             # dialogue2 = "yooooooo this is sick!"
-            # if ( clock > self.next_update ):
-            #     self.next_update = clock + self.dialogue_speed  
+            # if ( clock > next_update ):
+            #     next_update = clock + self.dialogue_speed  
             #     if (self.dg_cursor < len(dialogue1)):
         
             #         self.dg_cursor += 1
@@ -120,7 +119,7 @@ class TheGame():
         Reset user key presses
         """        
         self.start_KEY, self.back_KEY, self.down_KEY, self.up_KEY = False, False, False, False
-        self.cursor, self.next_update = 0, 0
+
 
 
     def render_text(self, text, size, font, color, x, y):
