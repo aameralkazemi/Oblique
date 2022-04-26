@@ -1,5 +1,6 @@
 import pygame as pg
 from mainmenu import MainMenu, Credits
+import time
 
 class TheGame():
     def __init__(self):
@@ -42,6 +43,8 @@ class TheGame():
         """
         while self.start:
 
+      
+
             self.listen_event()
 
             if self.back_KEY:
@@ -52,9 +55,39 @@ class TheGame():
             self.display.fill(self.black)
             
             self.render_text(self.user_text, 15 ,self.game_font, self.white, self.mid_WIDTH-200, self.mid_HEIGHT+200)
-            if self.user_text == "yes":
-                self.render_text("hello world", 15, self.game_font, self.white, 100, 100)
+
+            self.counter  = 0
             
+            
+            if self.user_text == "":
+                self.render_text("press s to start the game", 15, self.game_font, self.white, 200, 100)
+                self.counter = 0
+
+
+            if self.user_text == "s":
+                self.render_text("Welcome to Oblique !!", 15, self.game_font, self.white, 200, 100)
+                self.render_text("An adventure based or whatever", 15, self.game_font, self.white, 250, 120)
+                self.render_text("Press Y to Continue", 15, self.game_font, self.white, 250, 140)
+                self.counter = 1
+
+            if self.user_text == "sy" or self.user_text == "y" :
+                self.render_text("Level 1 Please enter you name", 15, self.game_font, self.white, 200, 100)
+                self.render_text("welcome Starnger to the land of the oblique and fuck you", 15, self.game_font, self.white, 250, 120)
+                self.render_text("Press N to continue", 15, self.game_font, self.white, 250, 140)
+                self.counter = 2
+                self.user_text = "y"
+      
+            if self.user_text == "yn" or self.user_text == "n":
+                self.render_text("Level 1 Please enter you name", 15, self.game_font, self.white, 200, 100)
+                self.render_text("welcome to level 1", 15, self.game_font, self.white, 250, 120)
+                self.counter = 3
+                self.user_text = "n"
+           
+        
+                
+
+              
+                
             
 
             self.window.blit(self.display,(0,0))
