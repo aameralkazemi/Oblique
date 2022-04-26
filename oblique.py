@@ -41,47 +41,21 @@ class TheGame():
         The game loop, this is where the actual game lives.
         """
         while self.start:
-            clock = pg.time.get_ticks()
-
-            def type_writer(dialogue, speed, x, y, next_update = 0):
-                """
-                Args:
-                    dialogue (string): The dialogue
-                    speed (int): Typing speed
-                    x, y (int): Coordinates of rendered text
-                """                
-                self.display.blit(self.dg_image, (x,y))
-                if ( clock > self.next_update ):
-                    self.next_update = clock + speed
-                    if (self.cursor < len(dialogue)):
-                        self.cursor += 1
-                        print(self.cursor)
-                self.dg_image = self.dg_font.render(dialogue[0:self.cursor], True, self.magenta)
 
             self.listen_event()
 
             if self.back_KEY:
                 self.start = False
                 self.user_text = ''
-                self.dg_image.fill(self.black)
-                
-            
+                self.dg_image.fill(self.black) 
+            self.listen_event()
             self.display.fill(self.black)
             
-            type_writer("Hello aamer, I think it works like this...", 50, 0, 100)
-
-            # self.display.blit( self.dg_image, (0,150))
-            
-            # dialogue2 = "yooooooo this is sick!"
-            # if ( clock > next_update ):
-            #     next_update = clock + self.dialogue_speed  
-            #     if (self.dg_cursor < len(dialogue1)):
-        
-            #         self.dg_cursor += 1
-        
-            # self.dg_image = self.dg_font.render(dialogue2[0:self.dg_cursor], True, self.magenta)
-
             self.render_text(self.user_text, 15 ,self.game_font, self.white, self.mid_WIDTH-200, self.mid_HEIGHT+200)
+            if self.user_text == "yes":
+                self.render_text("hello world", 15, self.game_font, self.white, 100, 100)
+            
+            
 
             self.window.blit(self.display,(0,0))
             pg.display.update()
